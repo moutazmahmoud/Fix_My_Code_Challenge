@@ -2,52 +2,52 @@
 #include <stdlib.h>
 
 /**
- * delete_dnodeint_at_index - Removes a node at a specific index from a list
+ * delete_dnodeint_at_index - Delete a node at a specific index from a list
  *
- * @head: A pointer to the first element of the list
- * @index: The index of the node to remove
+ * @head: A pointer to the first element of a list
+ * @index: The index of the node to delete
  *
- * Return: 1 if successful, -1 if failed
+ * Return: 1 on success, -1 on failure
  */
 int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 {
-    dlistint_t *start_ptr;
-    dlistint_t *temp_ptr;
-    unsigned int position;
+	dlistint_t *saved_head;
+	dlistint_t *tmp;
+	unsigned int p;
 
-    if (*head == NULL)
-    {
-        return (-1); // List is empty, deletion failed
-    }
-    start_ptr = *head;
-    position = 0;
-    while (position < index && *head != NULL)
-    {
-        *head = (*head)->next;
-        position++;
-    }
-    if (position != index)
-    {
-        *head = start_ptr;
-        return (-1); // Index out of range, deletion failed
-    }
-    if (index == 0)
-    {
-        temp_ptr = (*head)->next;
-        free(*head);
-        *head = temp_ptr;
-        if (temp_ptr != NULL)
-        {
-            temp_ptr->prev = NULL;
-        }
-    }
-    else
-    {
-        (*head)->prev->next = (*head)->next;
-        free(*head);
-        if ((*head)->next)
-            (*head)->next->prev = (*head)->prev;
-        *head = start_ptr;
-    }
-    return (1); // Deletion successful
+	if (*head == NULL)
+	{
+		return (-1);
+	}
+	saved_head = *head;
+	p = 0;
+	while (p < index && *head != NULL)
+	{
+		*head = (*head)->next;
+		p++;
+	}
+	if (p != index)
+	{
+		*head = saved_head;
+		return (-1);
+	}
+	if (index == 0)
+	{
+		tmp = (*head)->next;
+		free(*head);
+		*head = tmp;
+		if (tmp != NULL)
+		{
+			tmp->prev = NULL;
+		}
+	}
+	else
+	{
+		(*head)->prev->next = (*head)->next;
+		free(*head);
+		if ((*head)->next)
+			(*head)->next->prev = (*head)->prev;
+		*head = saved_head;
+	}
+	return (1);
 }
